@@ -1,19 +1,20 @@
-FILEPATH = "todos.txt"
+from pathlib import Path
 
-def get_todos(filepath=r'C:\Users\Pulis\PycharmProjects\PythonProject/todos.txt'): #we define this func for opening/reading the .txt file to make the below program cleaner.
+# This sets the path to "todos.txt" in the SAME folder as this file
+FILEPATH = Path(__file__).parent / "todos.txt"
 
-    """"Reads a text file and returns a list of the todos.""" #this is a doc-string which is output from help(get_todos) func.
 
-    with open(filepath, 'r') as file_local:
-        todos_local = file_local.readlines() #readlines func loads existing todos, list of strings. auto-closes file.
+def get_todos():
+    """Reads the todo items from the text file."""
+    if not FILEPATH.exists():
+        FILEPATH.write_text("")  # create file if it doesn't exist
+
+    with open(FILEPATH, "r") as file_local:
+        todos_local = file_local.readlines()
     return todos_local
 
-def write_todos(todos_arg, filepath=r'C:\Users\Pulis\PycharmProjects\PythonProject/todos.txt'): #define this func for opening/writing to the .txt file.
 
-    """Writes the todo items list in the text file.""" #doc-string
-
-    with open(filepath, 'w') as file:
-        file.writelines(todos_arg) #writelines func saves the list to the .txt file)
-
-if __name__ == "__main__": #code written within this block is only executed when you write this .py file.
-    print("Hello from functions")
+def write_todos(todos_arg):
+    """Writes the todo items list to the text file."""
+    with open(FILEPATH, "w") as file:
+        file.writelines(todos_arg)
